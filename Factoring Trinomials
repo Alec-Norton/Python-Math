@@ -1,0 +1,189 @@
+
+#gather user input for numbers
+beginningTerm = int(input("Enter beginning coefficient: " ))
+
+#if the beginning number is a 1
+if(beginningTerm == 1):
+    middleTerm = int(input("Enter middle term: "))
+    lastTerm = int(input("Enter last term: "))
+    #for later use
+    theOriginalEndNumber = lastTerm
+    
+
+
+    #initilization of positiveCount is actually negative so the program
+    #can run negative options for a factor of a positive nnumber
+    positiveCount = int(lastTerm / -1)
+
+    negativeCount = int(- 1)
+    # all lists
+    firstNumber = []
+    secondNumber = []
+    match = []
+
+    #if the user input is positive
+    #counter loop for factors of a number
+    while (positiveCount <= lastTerm):
+        #skips zero
+        if(positiveCount == 0):
+            positiveCount = positiveCount + 1
+        
+        if((lastTerm % positiveCount) == 0):
+            versFactor = int(lastTerm/positiveCount)
+            firstNumber.append([positiveCount, versFactor])
+        positiveCount = positiveCount + 1
+    
+    # if the user input is negative    
+    while(negativeCount >= lastTerm):
+        if((lastTerm % negativeCount) ==0):
+            versFactor = int(lastTerm/negativeCount)
+            firstNumber.append([negativeCount, versFactor])
+            indexFactor = indexFactor + 1
+        negativeCount = negativeCount - 1 
+
+    #counter loop that goes through all possible additive sums of
+    #a number with a 10 variance for accuracy
+    middleCount = middleTerm - 20
+    while(middleCount <= (middleTerm + 20)):
+        versAdd = middleTerm - middleCount
+        secondNumber.append([middleCount, versAdd])
+        middleCount = middleCount + 1
+    
+    #start to see if any matches occur
+
+    matchCount = 0
+    #this is to make sure that when you call back
+    #the list there isn't an error of calling a placement that isn't there. 
+    if(len(firstNumber) >= len(secondNumber)):
+        #check for any matches, counter loop
+        while(matchCount < len(firstNumber)):
+            #check to see if there is a match by using the counter loop
+            if(firstNumber[matchCount] in secondNumber):
+                match.append(firstNumber[matchCount])
+            matchCount = matchCount + 1
+    # this is the same set up as above but this time the firstNumber
+    # and lastNumber lists are switched, just to stop an error from happening
+    if(len(firstNumber) < len(secondNumber)):
+        while(matchCount < len(secondNumber)):
+            if(secondNumber[matchCount] in firstNumber):
+                match.append(secondNumber[matchCount])
+                
+            matchCount = matchCount + 1
+        #create a Tuple of the new match so you can split the pair
+        matchTup = match[0]
+        #print out result
+        print("(x + " + str(matchTup[0]) + ")(x + " + str(matchTup[1]) + ")")
+
+
+
+elif(beginningTerm != 1):
+    middleTerm = int(input("Enter middle integer: "))
+    lastTerm = int(input("Enter end integer: "))
+    theOriginalEndNumber = lastTerm
+
+
+    #initilization of positiveCount is actually negative so the program
+    #can run negative options for a factor of a positive nnumber
+    if(lastTerm > 0):
+        positiveCount = int(lastTerm / -1)
+    else:
+        positiveCount = int(lastTerm)
+
+    negativeCount = int(- 1)
+    # all lists
+    firstNumber = []
+    secondNumber = []
+    match = []
+    gcf = []
+
+    lastTerm = lastTerm * beginningTerm
+
+
+    #if the user input is positive
+    #counter loop for factors of a number, skips 0
+    while (positiveCount <= lastTerm):
+        if(positiveCount == 0):
+            positiveCount = positiveCount + 1
+        
+        if((lastTerm % positiveCount) == 0):
+            versFactor = int(lastTerm/positiveCount)
+            firstNumber.append([positiveCount, versFactor])
+        positiveCount = positiveCount + 1
+    
+    # if the user input is negative    
+    while(negativeCount >= lastTerm):
+        if((lastTerm % negativeCount) ==0):
+            versFactor = int(lastTerm/negativeCount)
+            firstNumber.append([negativeCount, versFactor])
+        negativeCount = negativeCount - 1 
+
+    #counter loop that goes through all possible additive sums of
+    #a number with a 10 variance for accuracy
+    middleCount = middleTerm - 100
+    while(middleCount <= (middleTerm + 100)):
+        if(middleTerm > 0 and middleCount < 0):
+            versAdd = middleTerm - middleCount
+            secondNumber.append([middleCount, versAdd])
+        middleCount = middleCount + 1
+    #check if there are any matches
+    matchCount = 0
+    #different if statements to make sure there isn't an error
+    if(len(firstNumber) >= len(secondNumber)):
+        while(matchCount < len(firstNumber)):
+            #check if the placement of the list is in the other list
+            if(firstNumber[matchCount] in secondNumber):
+                match.append(firstNumber[matchCount])
+            matchCount = matchCount + 1
+        
+    if(len(firstNumber) < len(secondNumber)):
+        while(matchCount < len(secondNumber)):
+            #check if the placement of the list is in the other list
+            if(secondNumber[matchCount] in firstNumber):
+                match.append(secondNumber[matchCount])
+            matchCount = matchCount + 1
+        
+    #create a tuple so you can split the pair
+    matchTup = match[0]
+    #check for a GCF
+    if((matchTup[0]%beginningTerm) == 0):
+        gcfCount = 100
+        while(gcfCount != -100):
+            if((beginningTerm%gcfCount) == 0 and (matchTup[0]%gcfCount) == 0):
+                gcf1 = gcfCount
+                break
+            gcfCount = gcfCount - 1
+        #redo counter loop for second GCF
+        gcfCount = 100
+        
+        while(gcfCount != -100):
+            if((theOriginalEndNumber%gcfCount) == 0 and (matchTup[1]%gcfCount) == 0):
+                gcf2 = gcfCount
+                break
+            gcfCount = gcfCount - 1
+        #print out result
+        print(str(gcf1) + "x(" + str(beginningTerm/gcf1) + "x + " + str(matchTup[0]/gcf1) + ")" + str(gcf2) + "(" + str(matchTup[1]/gcf2) + "x + " + str(theOriginalEndNumber/gcf2) + ")")
+        factoredBeginning = ("(" + str(gcf1) + "x + " + str(gcf2) + ")")
+        factoredEnd = ("(" + str(beginningTerm/gcf1) + "x + " + str(theOriginalEndNumber/gcf2) + ")")
+        print(factoredBeginning + factoredEnd)
+        
+    # this is just if the order of the middle term parts of sum need to be switched
+    #to create a gcf
+    elif((matchTup[1]%beginningTerm) == 0):
+        gcfCount = 100
+        while(gcfCount != - 100):
+            if((beginningTerm%gcfCount) == 0 and(matchTup[1]%gcfCount) == 0):
+                gcf1 = gcfCount
+                break
+            gcfCount = gcfCount - 1
+        gcfCount = 100
+        while(gcfCount != -100):
+            if((theOriginalEndNumber%gcfCount) == 0 and (matchTup[0]%gcfCount) == 0):
+                gcf2 = gcfCount
+                break
+            gcfCount = gcfCount - 1
+        #print out result
+        print(str(gcf1) + "x(" + str(beginningTerm/gcf1) + "x + " + str(matchTup[1]/gcf1) + ")" + str(gcf2) + "(" + str(matchTup[0]/gcf2) + "x + " + str(theOriginalEndNumber/gcf2) + ")")
+        factoredBeginning = ("(" + str(gcf1) + "x + " + str(gcf2) + ")")
+        factoredEnd = ("(" + str(beginningTerm/gcf1) + "x + " + str(theOriginalEndNumber/gcf2) + ")")
+        print(factoredBeginning + factoredEnd)
+                
