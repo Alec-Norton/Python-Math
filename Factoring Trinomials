@@ -38,7 +38,6 @@ if(beginningTerm == 1):
         if((lastTerm % negativeCount) ==0):
             versFactor = int(lastTerm/negativeCount)
             firstNumber.append([negativeCount, versFactor])
-            indexFactor = indexFactor + 1
         negativeCount = negativeCount - 1 
 
     #counter loop that goes through all possible additive sums of
